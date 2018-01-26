@@ -1,5 +1,5 @@
 # Selenium-Appium-Cucumber-Seed
-A starter or boilerplate project for automation mobile and web applications using Java, Selenium, Appium and Cucumber.
+A starter or boilerplate project for automating mobile and web applications using Java, Selenium, Appium and Cucumber.
 
 ## Dependencies
 **Required**

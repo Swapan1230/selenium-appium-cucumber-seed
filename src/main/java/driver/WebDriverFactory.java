@@ -3,6 +3,7 @@ package driver;
 
 import config.Config;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -10,6 +11,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -56,8 +58,17 @@ public class WebDriverFactory {
 
     private RemoteWebDriver getChromeDriver(DesiredCapabilities browserCaps) throws MalformedURLException {
         if(this.driverConfig.runLocally.equals("true")) {
+            ChromeOptions chromeOpts = new ChromeOptions();
+            chromeOpts.addArguments("--start-maximized");
+//            chromeOpts.setBinary(getWebDriverBinaryPath("chrome"));
+
+            DesiredCapabilities chromeCaps = DesiredCapabilities.chrome();
+            chromeCaps.setCapability(ChromeOptions.CAPABILITY, chromeOpts);
+            chromeCaps.setCapability("platform", browserCaps.getPlatform());
+            chromeCaps.setCapability("browserName", browserCaps.getBrowserName());
+
             System.setProperty("webdriver.chrome.driver", getWebDriverBinaryPath("chrome"));
-            return new ChromeDriver(browserCaps);
+            return new ChromeDriver(chromeCaps);
         }
         else {
             return new RemoteWebDriver(new URL(SAUCE_LABS_URL), browserCaps);
